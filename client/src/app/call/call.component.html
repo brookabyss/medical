@@ -1,3 +1,73 @@
-<p>
-  call works!
-</p>
+<button class="cli" (click)="onClick()"></button>
+<!--<section class="stage">-->
+<!--      <figure class="ball bubble"></figure>-->
+<!--</section>-->
+<!--<iframe class="water" *ngIf="flow" width="100%" height="315" src="https://www.youtube.com/embed/eVZXtTbGknM?controls=0&showinfo=0&rel=0&autoplay=1&start=1&end=200&loop=0&playlist=eVZXtTbGknM&modestbranding=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
+
+<div *ngIf="flow" class="user-form">
+    <p class="errors" *ngFor="let error of error_messages">{{error}}</p>
+
+    <h1 class="primarycolor form-title"><span>Login</span></h1>
+
+<form  #loginForm="ngForm"  novalidate>
+       <div class="inputs"> 
+       <input 
+        type="email" 
+        name="account_email"
+        required
+        [(ngModel)]="stakeholder.email"
+        #account_email="ngModel"
+        placeholder="Email"
+    /><br>
+    <input 
+        type="password" 
+        name="account_password"
+        required
+        [(ngModel)]="stakeholder.password"
+        #account_password="ngModel"
+        placeholder="Password"
+    /><br>
+    <button class="btn blue" [disabled]="!loginForm.form.valid" (click)="onLogin()">Login</button>
+    </div>
+    <a (click)="toggleReg()" class="register_link">Don't have an account? Please register.</a>
+     
+</form>
+
+</div>
+<div *ngIf="showReg" class="user-form">
+     <p class="errors" *ngFor="let error of error_messages">{{error}}</p>
+
+    <h1 class="primarycolor form-title"><span>Register</span></h1>
+    <form  #registerForm="ngForm"  novalidate>
+       <div class="inputs"> 
+       <input 
+        type="email" 
+        name="account_email"
+        required
+        [(ngModel)]="stakeholder.email"
+        #account_email="ngModel"
+        placeholder="Email"
+    /><br>
+    <input 
+        type="password" 
+        name="account_password"
+        required
+        [(ngModel)]="stakeholder.password"
+        #account_password="ngModel"
+        placeholder="Password"
+    /><br>
+    <input 
+        type="password" 
+        name="confirm_password"
+        required
+        [(ngModel)]="stakeholder.confirm_password"
+        #confirm_password="ngModel"
+        placeholder="Confirm Password"
+         
+    /><br>
+    <button class="btn blue" [disabled]="!registerForm.form.valid" (click)="onRegister()">Login</button>
+    </div>
+    
+     
+</form>
+</div>

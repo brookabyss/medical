@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CallComponent } from './call/call.component';
-// import { HttpService } from './http.service'
+import { StakesService } from './stakes.service'
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { CallComponent } from './call/call.component';
     AppRoutingModule,
     
   ],
-  providers: [],
+  providers: [StakesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

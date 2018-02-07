@@ -1,0 +1,32 @@
+.wrapper{
+    background-image: url("../assets/images/baboon.jpg");
+    background-size:cover;
+    background-position: center; 
+    /*height: 62em;*/
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+::ng-deep *{
+  padding: 0;
+  margin: 0;
+}
+
+
+::ng-deep .primarycolor{
+    /*background: -webkit-linear-gradient(white, #38495a);*/
+    /*-webkit-background-clip: text;*/
+    /*-webkit-text-fill-color: transparent;*/
+    color: white;
+    text-align: center;
+    font-family: 'lato',sans-serif;
+    font-weight: 300;
+    font-size: 2.5em;
+    letter-spacing: .3em;
+}
+::ng-deep input[type="text"]{
+    font-size: 1em;
+    padding-left: 0.2em;
+}

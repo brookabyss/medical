@@ -93,6 +93,10 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var path = require('path');
 var session = require('express-session');
+const twilio= require('twilio');
+const accountId="ACe90c143a936d1baf0cf9f40f37b26946";
+const authToken="c6f57595eec0a391e3a73090eca355ed";
+const client=twilio(accountId,authToken);
 app.use(session({
   secret: 'anonymous',
   resave: false,
@@ -115,6 +119,12 @@ route_setter(app);
 // Setting our Server to Listen on Port: 8000
 app.listen(8080, function() {
   console.log("listening on port 8080");
+  // client.messages.create({
+  //   body: 'Hello from Node',
+  //   to: '+12063077360',  // Text this number
+  //   from: '+12062036519'
+  // }).then((message) => console.log(message.sid))
+  // .catch(err=>console.log(err));
 })
 
 
