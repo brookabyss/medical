@@ -39,7 +39,25 @@
 
     <h1 class="primarycolor form-title"><span>Register</span></h1>
     <form  #registerForm="ngForm"  novalidate>
-       <div class="inputs"> 
+      <div class="inputs"> 
+        <input 
+        type="string" 
+        name="first_name"
+        required
+        [(ngModel)]="stakeholder.first_name"
+        #first_name="ngModel"
+        placeholder="First Name"
+        value="brook"
+    /><br>
+     <input 
+        type="string" 
+        name="last_name"
+        required
+        [(ngModel)]="stakeholder.last_name"
+        #last_name="ngModel"
+        placeholder="Last Name"
+        value="Kebede"
+    /><br>
        <input 
         type="email" 
         name="account_email"
@@ -47,6 +65,7 @@
         [(ngModel)]="stakeholder.email"
         #account_email="ngModel"
         placeholder="Email"
+        value="bro@example.com"
     /><br>
     <input 
         type="password" 
@@ -55,6 +74,7 @@
         [(ngModel)]="stakeholder.password"
         #account_password="ngModel"
         placeholder="Password"
+        value="123456789"
     /><br>
     <input 
         type="password" 
@@ -63,9 +83,10 @@
         [(ngModel)]="stakeholder.confirm_password"
         #confirm_password="ngModel"
         placeholder="Confirm Password"
+        value="123456789"
          
     /><br>
-    <button class="btn blue" [disabled]="!registerForm.form.valid" (click)="onRegister()">Login</button>
+    <button class="btn blue" [disabled]="!registerForm.form.valid" (click)="onRegister()">Register</button>
     </div>
     
      

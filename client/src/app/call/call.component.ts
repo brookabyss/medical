@@ -13,7 +13,6 @@ export class CallComponent implements OnInit {
   stakeholder: StakeHolder= new StakeHolder;
   error_messages: any;
   showReg: Boolean;
-  stakes
   constructor(private _stakesService: StakesService, private _router: Router) { }
 
   ngOnInit() {
@@ -37,7 +36,11 @@ export class CallComponent implements OnInit {
   onRegister(){
     console.log(this.stakeholder)
     this._stakesService.register(this.stakeholder)
-    .then(data=>console.log(data))
+    .then(data=>{
+        console.log("returned account register method")
+        console.log(data)}
+      
+      )
     .catch(err=>console.log(err))
   }
 

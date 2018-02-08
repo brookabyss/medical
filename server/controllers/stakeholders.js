@@ -5,36 +5,60 @@ var StakeHolder = mongoose.model('StakeHolder');
 module.exports ={// if errors ,send errors
   
   register: function(req,res){
-    console.log("register function",req.body)
+    console.log("register function",req.body);
+    if(req.body.password!=req.body.confirm_password){
+      console.log("passwords don't match")
+        res.status(500).json(false);
+    }
+    else{
+        let user= new StakeHolder({first_name: req.body.first_name, last_name: req.body.last_name, email: req.body.email,password:req.body.password  });
+        user.save(
+          function(err){
+          if (err){
+            console.log("Inside register error",err);
+            res.json(err);
+          }
+          else{
+            req.session.user_id=user._id;
+            console.log("From registration the currrent user is ", req.session.user_id);
+            Account.find({_creator:user._id},(err,accounts)=>{
+              if (err){
+                console.log("empty accounts");
+                console.log(err);
+              }
+              else{
+                 res.json(accounts);
+              }
+            })
+            // res.json(user);
+           
+           
+          }
+        });
+    }   
     
-    // let user= new User({name: req.body.name, score: req.body.score, percentage: req.body.percentage  })
-    // user.save(function(err){
-    //       if (err){
-    //         console.log("Inside register error",err)
-    //         res.json(false)
-    //       }
-    //       else{
-    //         req.session.user_id=user._id
-    //         console.log("From registration the currrent user is ", req.session.user_id)
-    //         res.json(user)
-    //       }
-    //     })
   },
    login: function(req,res){
-     console.log("in login", req.body)
+     console.log("in login", req.body);
+//     UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+//     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+//         if (err) return cb(err);
+//         cb(null, isMatch);
+//     });
+// };
      
-    //  User.findOne({email: req.body.email,password: req.body.password})
-    //  .then(user => {
-    //   if(!user){
-    //      res.json(false)
-    //   }
-    //   else{
-    //      req.session.user_id=user._id
-    //      console.log("current user id is", req.session.user_id)
-    //       res.json(user)
-    //   }
-    //  })
-    //  .catch(err=> res.json(false))
+      StakeHolder.findOne({email: req.body.email,password: req.body.password})
+      .then(user => {
+      if(!user){
+          res.json(false);
+      }
+      else{
+          req.session.user_id=user._id;
+          console.log("current user id is", req.session.user_id);
+          res.json(user);
+      }
+      })
+      .catch(err=> {console.log(err);res.json(false)});
    },
 //   logged_in_user: function(req,res){
 //     console.log("terrific from logged_in_user")
@@ -57,4 +81,4 @@ module.exports ={// if errors ,send errors
 //     req.session.destroy()
 //     res.redirect('/')
 //   }
-}
+};

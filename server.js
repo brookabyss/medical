@@ -93,9 +93,10 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var path = require('path');
 var session = require('express-session');
+var appsettings=require('./appsettings')
 const twilio= require('twilio');
-const accountId="ACe90c143a936d1baf0cf9f40f37b26946";
-const authToken="c6f57595eec0a391e3a73090eca355ed";
+const accountId=appsettings.twilio.accountId;
+const authToken=appsettings.twilio.authToken;
 const client=twilio(accountId,authToken);
 app.use(session({
   secret: 'anonymous',

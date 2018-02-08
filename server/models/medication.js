@@ -1,5 +1,6 @@
 var mongoose     = require('mongoose'),
-  Schema    = mongoose.Schema,
+// validate = require('mongoose-validator'),
+Schema    = mongoose.Schema,
   MedicationSchema  = new mongoose.Schema({
     _creator:{ type: Schema.Types.ObjectId, ref: "StakeHolder"},  
     name:{
