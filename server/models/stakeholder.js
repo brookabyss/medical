@@ -22,32 +22,58 @@ StakeHolderSchema  = new mongoose.Schema({
           },
           message: '{VALUE} is not a valid email!'
         },
-        index: { unique: true }
+        validate: {
+            isAsync: true,
+            validator: function(value, isValid) {
+                const self = this;
+                return self.constructor.findOne({ email: value })
+                .exec(function(err, user){
+                    if(err){
+                        throw err;
+                    }
+                    else if(user) {
+                        if(self.id === user.id) {  // if finding and saving then it's valid even for existing email
+                            return isValid(true);
+                        }
+                        return isValid(false);  
+                    }
+                    else{
+                        return isValid(true);
+                    }
+
+                });
+            },
+            message:  'The email address is already taken!'
       },
+    },
     password:{
       type: String,
       required:  [true,'Password is empty'],
+      validate: {
+          validator: function(value) {
+              var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+              return re.test(this.password);
+          },
+          message: 'A password must be between 8-32 characters , include numbers, alphabets and special characters'
+      } 
     },
     accounts:[{ type: Schema.Types.ObjectId, ref :'Account', default: null}],
 
     },
     { timestamps: true } );
 
-StakeHolderSchema.pre('save', function(done){
-  if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,32}/.test(this.password)){
-    console.log("password matcher error");
-     
-  }
-bcrypt.hash(this.password, 10 , function(err, hash) {
-  if(err){
-    console.log("Brook Error");
-    console.log(err);
-  }
-  console.log(this.password);
-  this.password=hash;
-  console.log(this.password);
-});
-done();
+StakeHolderSchema.pre('save',true, function(next,done){
+ 
+    bcrypt.hash(this.password, 10 , function(err, hash) {
+      if(err){
+        console.log("Brook Error");
+        console.log(err);
+      }
+        console.log(this.password);
+        this.password=hash;
+        console.log(this.password);
+      });
+    done();
 });
  
 

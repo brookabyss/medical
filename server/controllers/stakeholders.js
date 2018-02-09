@@ -16,7 +16,7 @@ module.exports ={// if errors ,send errors
           function(err){
           if (err){
             console.log("Inside register error",err);
-            res.json(err);
+            res.status(500).json(err);
           }
           else{
             req.session.user_id=user._id;

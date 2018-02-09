@@ -12,11 +12,14 @@ export class CallComponent implements OnInit {
   flow: Boolean;
   stakeholder: StakeHolder= new StakeHolder;
   error_messages: any;
+  errors:any;
   showReg: Boolean;
-  constructor(private _stakesService: StakesService, private _router: Router) { }
+  constructor(private _stakesService: StakesService, private _router: Router) { 
+     this.error_messages=[];
+  }
 
   ngOnInit() {
-    this.error_messages=[];
+   
     this.flow=false;
     this.showReg=false;
   }
@@ -41,7 +44,18 @@ export class CallComponent implements OnInit {
         console.log(data)}
       
       )
-    .catch(err=>console.log(err))
+    .catch(err=>{
+      this.errors=JSON.parse( err['_body'] );
+      for (let e in this.errors['errors']){
+        this.error_messages.push(this.errors['errors'][e]['message'])
+      }
+      // this.error_messages=err.body.messages;
+      // console.log(err.body.messages)
+      this.stakeholder=new StakeHolder;
+      console.log("redirecting.. .. . . . .Brook");
+      this._router.navigate([''])
+      
+    })
   }
 
 }

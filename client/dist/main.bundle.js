@@ -206,9 +206,9 @@ var CallComponent = /** @class */ (function () {
         this._stakesService = _stakesService;
         this._router = _router;
         this.stakeholder = new stakeholder_1.StakeHolder;
+        this.error_messages = [];
     }
     CallComponent.prototype.ngOnInit = function () {
-        this.error_messages = [];
         this.flow = false;
         this.showReg = false;
     };
@@ -226,13 +226,24 @@ var CallComponent = /** @class */ (function () {
         this._stakesService.login(this.stakeholder);
     };
     CallComponent.prototype.onRegister = function () {
+        var _this = this;
         console.log(this.stakeholder);
         this._stakesService.register(this.stakeholder)
             .then(function (data) {
             console.log("returned account register method");
             console.log(data);
         })
-            .catch(function (err) { return console.log(err); });
+            .catch(function (err) {
+            _this.errors = JSON.parse(err['_body']);
+            for (var e in _this.errors['errors']) {
+                _this.error_messages.push(_this.errors['errors'][e]['message']);
+            }
+            // this.error_messages=err.body.messages;
+            // console.log(err.body.messages)
+            _this.stakeholder = new stakeholder_1.StakeHolder;
+            console.log("redirecting.. .. . . . .Brook");
+            _this._router.navigate(['']);
+        });
     };
     CallComponent = __decorate([
         core_1.Component({
