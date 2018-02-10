@@ -22,8 +22,8 @@ module.exports = (app) => {
 
 
 	app.get("*", (req, res) => {
-// 		res.sendfile(path.resolve("./client/dist/index.html"))
-        res.redirect("https://www.google.com/")
+		res.sendfile(path.resolve("./client/dist/index.html"))
+        // res.redirect("https://www.google.com/")
     })
     
 

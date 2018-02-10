@@ -5,12 +5,16 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CallComponent } from './call/call.component';
-import { StakesService } from './stakes.service'
+import { StakesService } from './stakes.service';
+import { ShowComponent } from './show/show.component';
+import { NewAccountComponent } from './new-account/new-account.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    CallComponent
+    CallComponent,
+    ShowComponent,
+    NewAccountComponent
   ],
   imports: [
     BrowserModule,

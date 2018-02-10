@@ -32,11 +32,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var router_1 = __webpack_require__("../../../router/esm5/router.js");
 var call_component_1 = __webpack_require__("../../../../../src/app/call/call.component.ts");
+var show_component_1 = __webpack_require__("../../../../../src/app/show/show.component.ts");
+var new_account_component_1 = __webpack_require__("../../../../../src/app/new-account/new-account.component.ts");
 var routes = [
     {
         path: '',
         component: call_component_1.CallComponent
     },
+    {
+        path: 'accounts/show/user/:id',
+        component: show_component_1.ShowComponent
+    },
+    {
+        path: 'accounts/new',
+        component: new_account_component_1.NewAccountComponent
+    },
+    { path: '**', redirectTo: '' }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -131,6 +142,8 @@ var app_routing_module_1 = __webpack_require__("../../../../../src/app/app-routi
 var app_component_1 = __webpack_require__("../../../../../src/app/app.component.ts");
 var call_component_1 = __webpack_require__("../../../../../src/app/call/call.component.ts");
 var stakes_service_1 = __webpack_require__("../../../../../src/app/stakes.service.ts");
+var show_component_1 = __webpack_require__("../../../../../src/app/show/show.component.ts");
+var new_account_component_1 = __webpack_require__("../../../../../src/app/new-account/new-account.component.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -138,7 +151,9 @@ var AppModule = /** @class */ (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
-                call_component_1.CallComponent
+                call_component_1.CallComponent,
+                show_component_1.ShowComponent,
+                new_account_component_1.NewAccountComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -228,7 +243,8 @@ var CallComponent = /** @class */ (function () {
         this._stakesService.login(this.stakeholder)
             .then(function (data) {
             console.log("returned account login method");
-            console.log(data);
+            console.log(data['user_id']);
+            _this._router.navigate(['/accounts/show/user', data['user_id']]);
         })
             .catch(function (err) {
             console.log(err);
@@ -284,6 +300,133 @@ var StakeHolder = /** @class */ (function () {
     return StakeHolder;
 }());
 exports.StakeHolder = StakeHolder;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/new-account/new-account.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/new-account/new-account.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  new-account works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/new-account/new-account.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var NewAccountComponent = /** @class */ (function () {
+    function NewAccountComponent() {
+    }
+    NewAccountComponent.prototype.ngOnInit = function () {
+    };
+    NewAccountComponent = __decorate([
+        core_1.Component({
+            selector: 'app-new-account',
+            template: __webpack_require__("../../../../../src/app/new-account/new-account.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/new-account/new-account.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], NewAccountComponent);
+    return NewAccountComponent;
+}());
+exports.NewAccountComponent = NewAccountComponent;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/show/show.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/show/show.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p *ngFor=\"let account of accounts\">Account</p>\n<p>show</p>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/show/show.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var stakes_service_1 = __webpack_require__("../../../../../src/app/stakes.service.ts");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+var ShowComponent = /** @class */ (function () {
+    function ShowComponent(_stakesService, _router) {
+        this._stakesService = _stakesService;
+        this._router = _router;
+    }
+    ShowComponent.prototype.ngOnInit = function () {
+        this.accounts = [];
+    };
+    ShowComponent = __decorate([
+        core_1.Component({
+            selector: 'app-show',
+            template: __webpack_require__("../../../../../src/app/show/show.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/show/show.component.css")]
+        }),
+        __metadata("design:paramtypes", [stakes_service_1.StakesService, router_1.Router])
+    ], ShowComponent);
+    return ShowComponent;
+}());
+exports.ShowComponent = ShowComponent;
 
 
 /***/ }),

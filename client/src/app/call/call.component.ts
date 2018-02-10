@@ -39,14 +39,13 @@ export class CallComponent implements OnInit {
   
   
   onLogin(){
-  
     console.log(this.stakeholder)
     this._stakesService.login(this.stakeholder)
      .then(data=>{
         console.log("returned account login method")
-        console.log(data)}
-      
-      )
+        console.log(data['user_id'])
+        this._router.navigate(['/accounts/show/user',data['user_id']])
+      })
     .catch(err=>{
       console.log(err);
       this.error_messages.push("Email or password incorrect");

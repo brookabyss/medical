@@ -30,7 +30,11 @@ module.exports ={// if errors ,send errors
               else{
                 console.log("booogies boogies");
                 console.log(accounts);
-                res.json(accounts);
+                var context={
+                  accounts: accounts,
+                  user_id: user._id
+                }
+                res.json(context);
               }
             });
            
@@ -40,6 +44,7 @@ module.exports ={// if errors ,send errors
     }   
     
   },
+  
    login: function(req,res){
      console.log("in login", req.body);
      var clean= false;
@@ -66,9 +71,12 @@ module.exports ={// if errors ,send errors
                   
                   }
                   else{
-                     console.log("login aruga");
-                     console.log(accounts);
-                     res.json(accounts);
+                      console.log("login aruga");
+                      var context={
+                           accounts: accounts,
+                            user_id: user._id
+                      }
+                      res.json(context);
                   }
                 
                 
