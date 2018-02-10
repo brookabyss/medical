@@ -28,14 +28,40 @@ export class CallComponent implements OnInit {
     this.showReg=false;
     console.log(this.flow)
   }
+  
+  
   toggleReg(){
     this.showReg=!this.showReg;
     this.flow=false;
   }
+  
+  //// Login
+  
+  
   onLogin(){
+  
     console.log(this.stakeholder)
     this._stakesService.login(this.stakeholder)
+     .then(data=>{
+        console.log("returned account login method")
+        console.log(data)}
+      
+      )
+    .catch(err=>{
+      console.log(err);
+      this.error_messages.push("Email or password incorrect");
+      this.stakeholder=new StakeHolder;
+      console.log("redirecting.. .. . . . .Brook");
+      this._router.navigate([''])
+      
+    })
   }
+  
+  
+  
+  
+  // Registration 
+  
   onRegister(){
     console.log(this.stakeholder)
     this._stakesService.register(this.stakeholder)
@@ -49,8 +75,6 @@ export class CallComponent implements OnInit {
       for (let e in this.errors['errors']){
         this.error_messages.push(this.errors['errors'][e]['message'])
       }
-      // this.error_messages=err.body.messages;
-      // console.log(err.body.messages)
       this.stakeholder=new StakeHolder;
       console.log("redirecting.. .. . . . .Brook");
       this._router.navigate([''])

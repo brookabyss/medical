@@ -221,10 +221,24 @@ var CallComponent = /** @class */ (function () {
         this.showReg = !this.showReg;
         this.flow = false;
     };
+    //// Login
     CallComponent.prototype.onLogin = function () {
+        var _this = this;
         console.log(this.stakeholder);
-        this._stakesService.login(this.stakeholder);
+        this._stakesService.login(this.stakeholder)
+            .then(function (data) {
+            console.log("returned account login method");
+            console.log(data);
+        })
+            .catch(function (err) {
+            console.log(err);
+            _this.error_messages.push("Email or password incorrect");
+            _this.stakeholder = new stakeholder_1.StakeHolder;
+            console.log("redirecting.. .. . . . .Brook");
+            _this._router.navigate(['']);
+        });
     };
+    // Registration 
     CallComponent.prototype.onRegister = function () {
         var _this = this;
         console.log(this.stakeholder);
@@ -238,8 +252,6 @@ var CallComponent = /** @class */ (function () {
             for (var e in _this.errors['errors']) {
                 _this.error_messages.push(_this.errors['errors'][e]['message']);
             }
-            // this.error_messages=err.body.messages;
-            // console.log(err.body.messages)
             _this.stakeholder = new stakeholder_1.StakeHolder;
             console.log("redirecting.. .. . . . .Brook");
             _this._router.navigate(['']);
@@ -314,6 +326,7 @@ var StakesService = /** @class */ (function () {
         this.observedAccounts.next(accounts);
     };
     StakesService.prototype.register = function (stakeholder) {
+        console.log("register service");
         return this._http.post('/register', stakeholder).map(function (data) { return data.json(); }).toPromise();
     };
     StakesService.prototype.login = function (stakeholder) {

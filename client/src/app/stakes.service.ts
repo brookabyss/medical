@@ -32,6 +32,7 @@ export class StakesService {
   }
   
   register(stakeholder){
+      console.log("register service")
       return this._http.post('/register',stakeholder).map(data=>data.json()).toPromise()
   }
   

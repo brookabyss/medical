@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Account = mongoose.model('Account');
 var StakeHolder = mongoose.model('StakeHolder');
+var bcrypt = require('bcrypt');
 
 module.exports ={// if errors ,send errors
   
@@ -27,10 +28,11 @@ module.exports ={// if errors ,send errors
                 console.log(err);
               }
               else{
-                 res.json(accounts);
+                console.log("booogies boogies");
+                console.log(accounts);
+                res.json(accounts);
               }
-            })
-            // res.json(user);
+            });
            
            
           }
@@ -40,45 +42,46 @@ module.exports ={// if errors ,send errors
   },
    login: function(req,res){
      console.log("in login", req.body);
-//     UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-//     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-//         if (err) return cb(err);
-//         cb(null, isMatch);
-//     });
-// };
-     
-      StakeHolder.findOne({email: req.body.email,password: req.body.password})
-      .then(user => {
-      if(!user){
-          res.json(false);
-      }
-      else{
-          req.session.user_id=user._id;
-          console.log("current user id is", req.session.user_id);
-          res.json(user);
-      }
-      })
-      .catch(err=> {console.log(err);res.json(false)});
+     var clean= false;
+      StakeHolder.findOne({email: req.body.email}, (err,user)=>{
+         if(err){
+            console.log("login no user")
+            console.log(err);
+            res.json(false);
+          }
+        else{
+          console.log("there is a user")
+          bcrypt.compare(req.body.password,user.password, function(err, result) {
+            console.log("Check passwords" +result);
+            if(!result){
+              console.log("No password result"+err);
+              res.status(500).json(err);
+            }
+            else{
+              Account.find({_creator:user._id},(err,accounts)=>{
+                 if (err){
+                   console.log("empty accounts");
+                   console.log(err);
+                   res.status(500).json(err);
+                  
+                  }
+                  else{
+                     console.log("login aruga");
+                     console.log(accounts);
+                     res.json(accounts);
+                  }
+                
+                
+              });
+            }
+            
+          });
+
+        }
+        
+        });   
+      
+
    },
-//   logged_in_user: function(req,res){
-//     console.log("terrific from logged_in_user")
-//     console.log(req.session.user_id)
-//     if(req.session.user_id){
-//       console.log("from logged_in_user")
-//       User.findOne({_id: req.session.user_id})
-//       .then(user=>{res.json(user)
-//         console.log("what am I getting?" ,user)
-//       })
-//       .catch(err=>console.log(err))
-//     }
-//     else{
-//       console.log("redirecting to home")
-//       res.json(false)
-//     }
-//   },
-//   logout: function(req,res){
-//     console.log("bye bye, loggin out")
-//     req.session.destroy()
-//     res.redirect('/')
-//   }
+
 };

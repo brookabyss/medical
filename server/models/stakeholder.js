@@ -63,17 +63,20 @@ StakeHolderSchema  = new mongoose.Schema({
     { timestamps: true } );
 
 StakeHolderSchema.pre('save',true, function(next,done){
- 
+    var user=this;
     bcrypt.hash(this.password, 10 , function(err, hash) {
       if(err){
         console.log("Brook Error");
         console.log(err);
       }
+       console.log("Are we still here??????????????");
         console.log(this.password);
-        this.password=hash;
-        console.log(this.password);
+        user.password=hash;
+        console.log("Are we still here");
+        console.log(user.password);
+        next();
       });
-    done();
+      done();
 });
  
 
