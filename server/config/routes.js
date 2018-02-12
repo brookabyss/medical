@@ -1,6 +1,7 @@
 const path = require("path")
 const calls = require ('../controllers/calls')
 const stakeholders = require ('../controllers/stakeholders')
+const patients = require ('../controllers/patients')
 
 // const users = require("./../controllers/users.js")
 
@@ -18,6 +19,10 @@ module.exports = (app) => {
     app.post('/login', (req, res) => {
         console.log('login hit!')
         stakeholders.login(req,res)
+    })
+    
+    app.post('/add/patient', (req,res) => {
+        patients.createPatient(req,res)
     })
 
 

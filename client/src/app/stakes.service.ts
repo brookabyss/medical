@@ -3,7 +3,7 @@ import { Http, Headers, RequestOptions} from '@angular/http'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
+import { Patient } from './patient'
 
 
 
@@ -11,11 +11,17 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class StakesService {
    
-  observedStakeHolder = new BehaviorSubject(null)
-  observedAccounts = new BehaviorSubject([])
-  observedMedications = new BehaviorSubject(null)
+  observedStakeHolder = new BehaviorSubject(null);
+  observedAccounts = new BehaviorSubject([]);
+  observedMedications = new BehaviorSubject(null);
+  observedPatient = new BehaviorSubject(new Patient);
   
   constructor(private _http: Http) {
+  }
+  
+  updatePatient(patient){
+   
+    this.observedPatient.next(patient);
   }
   
   updateStakeHolder(stakeholder){
@@ -39,6 +45,11 @@ export class StakesService {
   login(stakeholder){
       console.log("service login")
       return this._http.post('/login',stakeholder).map(data=>data.json()).toPromise()
+  }
+  
+  
+  addPatient(patient){
+    return this._http.post('/add/patient',patient).map(data=>data.json()).toPromise()
   }
   
 //   get_logged_in_account(){

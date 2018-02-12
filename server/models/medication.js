@@ -2,7 +2,8 @@ var mongoose     = require('mongoose'),
 // validate = require('mongoose-validator'),
 Schema    = mongoose.Schema,
   MedicationSchema  = new mongoose.Schema({
-    _creator:{ type: Schema.Types.ObjectId, ref: "StakeHolder"},  
+    _creator:{ type: Schema.Types.ObjectId, ref: "StakeHolder"},
+    patient_Id:{type: Schema.Types.ObjectId, ref: "StakeHolder"},
     name:{
       type: String,
       required:  [true,'medication name is empty'],

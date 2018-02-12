@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Account = mongoose.model('Account');
+var Patient = mongoose.model('Patient');
 var StakeHolder = mongoose.model('StakeHolder');
 var bcrypt = require('bcrypt');
 
@@ -22,7 +22,7 @@ module.exports ={// if errors ,send errors
           else{
             req.session.user_id=user._id;
             console.log("From registration the currrent user is ", req.session.user_id);
-            Account.find({_creator:user._id},(err,accounts)=>{
+            Patient.find({_creator:user._id},(err,accounts)=>{
               if (err){
                 console.log("empty accounts");
                 console.log(err);
@@ -47,15 +47,14 @@ module.exports ={// if errors ,send errors
   
    login: function(req,res){
      console.log("in login", req.body);
-     var clean= false;
       StakeHolder.findOne({email: req.body.email}, (err,user)=>{
          if(err){
-            console.log("login no user")
+            console.log("login no user");
             console.log(err);
             res.json(false);
           }
         else{
-          console.log("there is a user")
+          console.log("there is a user");
           bcrypt.compare(req.body.password,user.password, function(err, result) {
             console.log("Check passwords" +result);
             if(!result){
@@ -63,7 +62,7 @@ module.exports ={// if errors ,send errors
               res.status(500).json(err);
             }
             else{
-              Account.find({_creator:user._id},(err,accounts)=>{
+              Patient.find({_creator:user._id},(err,accounts)=>{
                  if (err){
                    console.log("empty accounts");
                    console.log(err);
@@ -71,6 +70,7 @@ module.exports ={// if errors ,send errors
                   
                   }
                   else{
+                      req.session.user_id= user._id;
                       console.log("login aruga");
                       var context={
                            accounts: accounts,

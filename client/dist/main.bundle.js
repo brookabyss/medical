@@ -307,12 +307,13 @@ exports.StakeHolder = StakeHolder;
 /***/ "../../../../../src/app/new-account/new-account.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
+var escape = __webpack_require__("../../../../css-loader/lib/url/escape.js");
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".patient-wrapper{\n    height: 100%;\n    width: 100%;\n    border: 1px dashed red;\n    /*filter: blur(5px);*/\n    background-image: url(" + escape(__webpack_require__("../../../../../src/assets/images/langano.jpg")) + ");\n    background-size:cover;\n    background-position: center; \n}\n.patient-info{\n    background: rgba(0, 0, 0, 0.5);\n    height: 80%;\n    width: 60%;\n    margin-top: 5%;\n    margin-left: 20%;\n    border-radius: 5px;\n}\n.patient-form{\n    position: relative;\n    margin: 0 auto;\n    margin-top: 19em;\n    width: 30em;\n    height: 30em;\n    \n\n}\n.form-title{\n    text-align: center;\n}\n::-webkit-input-placeholder{\n    font-family: 'lato',sans-serif; \n    color: gray;\n    font-size: 1.5em;\n    font-weight: 100;\n    text-align: center;\n}\n:-ms-input-placeholder{\n    font-family: 'lato',sans-serif; \n    color: gray;\n    font-size: 1.5em;\n    font-weight: 100;\n    text-align: center;\n}\n::-ms-input-placeholder{\n    font-family: 'lato',sans-serif; \n    color: gray;\n    font-size: 1.5em;\n    font-weight: 100;\n    text-align: center;\n}\n::placeholder{\n    font-family: 'lato',sans-serif; \n    color: gray;\n    font-size: 1.5em;\n    font-weight: 100;\n    text-align: center;\n}\ninput.ng-dirty.ng-invalid{\n    outline-color: red;\n    outline-width: 0.5em;\n}\n.errors{\n    font-family: 'lato',sans-serif; \n    font-size: 1em;\n    color :red;\n    text-align: center;\n    \n}\n.btn{\n    width: 90%;\n    height: 2em;\n    color: #FFF;\n    font-family: 'lato',sans-serif;\n    font-size: 1.5em;\n    font-weight: 100;\n    text-align: center;\n    margin-top: 2em;\n    margin-left: 5%;\n    margin-right: 5%;\n    margin-bottom: 5%;\n}\n.blue{\n    background-color: #357AE8;\n\tbackground-image: -webkit-gradient(linear,left top, left bottom,from(#4d90fe),to(#357ae8));\n\tbackground-image: linear-gradient(top,#4d90fe,#357ae8);\n\t\n\t-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);\n\tbox-shadow: 0 1px 1px rgba(0,0,0,.1);\n\tborder: 1px solid #3079ED;\n\n}\n.form-title{\n    text-align: center;\n}\nform{\n    /*border: .1em dashed red;*/\n    width: 24em;\n    height: 19em;\n    margin: 2em;\n}\ninput{\n    margin-top: 1em;\n    width: 100%;\n    height: 2em;\n    padding-left: 0.5em;\n    padding-top: 0.1em;\n    font-size: 0.8em;\n}\n.inputs{\n    position: relative;\n    margin: 0 auto;\n    width: 80%;\n    margin-left: 10%;\n    margin-right: 10%;\n    /*border: 1px solid green;*/\n}\n", ""]);
 
 // exports
 
@@ -325,7 +326,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/new-account/new-account.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  new-account works!\n</p>\n"
+module.exports = "<div class=\"patient-wrapper\">\n     <div class=\"patient-info\">\n    <p class=\"errors\" *ngFor=\"let error of error_messages\">{{error}}</p>\n\n    <h1 class=\"primarycolor form-title\"><span>Add New Patient</span></h1>\n    <h2>Patient Info:</h2>\n    \n    <form class=\"patient-form\" #patientForm=\"ngForm\"  novalidate>\n      <div class=\"inputs\"> \n        <input \n        type=\"string\" \n        name=\"first_name\"\n        required\n        [(ngModel)]=\"patient.first_name\"\n        #first_name=\"ngModel\"\n        placeholder=\"First Name\"\n    /><br>\n     <input \n        type=\"string\" \n        name=\"last_name\"\n        required\n        [(ngModel)]=\"patient.last_name\"\n        #last_name=\"ngModel\"\n        placeholder=\"Last Name\"\n    /><br>\n     <input \n        type=\"date\" \n        name=\"dob\"\n        required\n        [(ngModel)]=\"patient.dob\"\n        #dob=\"ngModel\"\n        placeholder=\"Date of Birth\"\n    /><br>\n    <button class=\"btn blue\" [disabled]=\"!patientForm.form.valid\" (click)=\"onCreate()\">Add Patient</button>\n    </div>\n    <a (click)=\"toggleReg()\" class=\"register_link\">Don't have an account? Please register.</a>\n     \n    </form>\n   \n</div>\n\n</div>"
 
 /***/ }),
 
@@ -345,10 +346,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var stakes_service_1 = __webpack_require__("../../../../../src/app/stakes.service.ts");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+var patient_1 = __webpack_require__("../../../../../src/app/patient.ts");
 var NewAccountComponent = /** @class */ (function () {
-    function NewAccountComponent() {
+    function NewAccountComponent(_stakesService, _router) {
+        var _this = this;
+        this._stakesService = _stakesService;
+        this._router = _router;
+        this.patient = new patient_1.Patient;
+        this.subscription = this._stakesService.observedPatient.subscribe(function (patient) { return _this.patient = patient; }, function (err) { return console.log(err); }, function () { });
     }
     NewAccountComponent.prototype.ngOnInit = function () {
+        this.error_messages = [];
+    };
+    NewAccountComponent.prototype.onCreate = function () {
+        var _this = this;
+        console.log("new-patient");
+        console.log(this.patient);
+        this._stakesService.addPatient(this.patient)
+            .then(function (data) {
+            console.log(data);
+            _this._stakesService.updatePatient(_this.patient);
+            _this._stakesService.updateAccounts(data.accounts);
+            console.log(data.user_id);
+            _this._router.navigate(['/accounts/show/', data.user_id]);
+        })
+            .catch(function (err) {
+            console.log(err);
+        });
+    };
+    NewAccountComponent.prototype.ngOnDestroy = function () {
+        this.subscription.unsubscribe();
     };
     NewAccountComponent = __decorate([
         core_1.Component({
@@ -356,11 +385,27 @@ var NewAccountComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/new-account/new-account.component.html"),
             styles: [__webpack_require__("../../../../../src/app/new-account/new-account.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [stakes_service_1.StakesService, router_1.Router])
     ], NewAccountComponent);
     return NewAccountComponent;
 }());
 exports.NewAccountComponent = NewAccountComponent;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/patient.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Patient = /** @class */ (function () {
+    function Patient() {
+    }
+    return Patient;
+}());
+exports.Patient = Patient;
 
 
 /***/ }),
@@ -451,13 +496,18 @@ var http_1 = __webpack_require__("../../../http/esm5/http.js");
 __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
 __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
 var BehaviorSubject_1 = __webpack_require__("../../../../rxjs/_esm5/BehaviorSubject.js");
+var patient_1 = __webpack_require__("../../../../../src/app/patient.ts");
 var StakesService = /** @class */ (function () {
     function StakesService(_http) {
         this._http = _http;
         this.observedStakeHolder = new BehaviorSubject_1.BehaviorSubject(null);
         this.observedAccounts = new BehaviorSubject_1.BehaviorSubject([]);
         this.observedMedications = new BehaviorSubject_1.BehaviorSubject(null);
+        this.observedPatient = new BehaviorSubject_1.BehaviorSubject(new patient_1.Patient);
     }
+    StakesService.prototype.updatePatient = function (patient) {
+        this.observedPatient.next(patient);
+    };
     StakesService.prototype.updateStakeHolder = function (stakeholder) {
         this.observedStakeHolder.next(stakeholder);
     };
@@ -476,6 +526,9 @@ var StakesService = /** @class */ (function () {
         console.log("service login");
         return this._http.post('/login', stakeholder).map(function (data) { return data.json(); }).toPromise();
     };
+    StakesService.prototype.addPatient = function (patient) {
+        return this._http.post('/add/patient', patient).map(function (data) { return data.json(); }).toPromise();
+    };
     StakesService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.Http])
@@ -491,6 +544,13 @@ exports.StakesService = StakesService;
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "baboon.c226ea7106d4bf20630c.jpg";
+
+/***/ }),
+
+/***/ "../../../../../src/assets/images/langano.jpg":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "langano.395ad9e7df1ade016c8b.jpg";
 
 /***/ }),
 

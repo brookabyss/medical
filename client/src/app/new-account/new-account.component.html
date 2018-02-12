@@ -1,3 +1,42 @@
-<p>
-  new-account works!
-</p>
+<div class="patient-wrapper">
+     <div class="patient-info">
+    <p class="errors" *ngFor="let error of error_messages">{{error}}</p>
+
+    <h1 class="primarycolor form-title"><span>Add New Patient</span></h1>
+    <h2>Patient Info:</h2>
+    
+    <form class="patient-form" #patientForm="ngForm"  novalidate>
+      <div class="inputs"> 
+        <input 
+        type="string" 
+        name="first_name"
+        required
+        [(ngModel)]="patient.first_name"
+        #first_name="ngModel"
+        placeholder="First Name"
+    /><br>
+     <input 
+        type="string" 
+        name="last_name"
+        required
+        [(ngModel)]="patient.last_name"
+        #last_name="ngModel"
+        placeholder="Last Name"
+    /><br>
+     <input 
+        type="date" 
+        name="dob"
+        required
+        [(ngModel)]="patient.dob"
+        #dob="ngModel"
+        placeholder="Date of Birth"
+    /><br>
+    <button class="btn blue" [disabled]="!patientForm.form.valid" (click)="onCreate()">Add Patient</button>
+    </div>
+    <a (click)="toggleReg()" class="register_link">Don't have an account? Please register.</a>
+     
+    </form>
+   
+</div>
+
+</div>

@@ -1,7 +1,7 @@
 var mongoose     = require('mongoose'),
 // validate = require('mongoose-validator'),
 Schema    = mongoose.Schema,
- AccountSchema  = new mongoose.Schema({
+ PatientSchema  = new mongoose.Schema({
     _creator:{ type: Schema.Types.ObjectId, ref: "StakeHolder"},
     patient_first_name: {
         type: String,
@@ -13,13 +13,18 @@ Schema    = mongoose.Schema,
         required:[true,"Patient last name can't be empty"],
         minlength: [1, "The question has to be at least 1 characters in length."]
     },
-    hospital_number: {
+    dob: {
+        type: Date,
+        required:[true,"Date of birth can't be empty"],
+    },
+    
+    hospital_Id: {
         type: String,
-        required:[true,"Correct answer is empty"]
     },
     medications:[{ type: Schema.Types.ObjectId, ref :'Medication', default: null}],
+    hospital_visits:[{ type: Schema.Types.ObjectId, ref :'Visit', default: null}],
   },
 { timestamps: true } );
 
 
-var Account= mongoose.model('Account', AccountSchema);
+var Patient= mongoose.model('Patient', PatientSchema);
