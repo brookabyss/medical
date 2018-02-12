@@ -52,9 +52,9 @@ export class StakesService {
     return this._http.post('/add/patient',patient).map(data=>data.json()).toPromise()
   }
   
-//   get_logged_in_account(){
-//     return this._http.get('/account/loggedin').map(data=>data.json()).toPromise()
-//   }
+  get_logged_in_user(){
+    return this._http.get('/user/loggedin').map(data=>data.json()).toPromise()
+  }
  
 //   addSite(site){
 //     console.log("service login")

@@ -91,5 +91,20 @@ module.exports ={// if errors ,send errors
       
 
    },
+   get_logged_in_user: function(req, res){
+     if (req.session.user_id){
+       res.json({loggedin:true,user_id:req.session.user_id});
+     }
+     else{
+       res.json({loggedin:false});
+     }
+     
+     
+     
+     
+     
+     
+     
+   }
 
 };

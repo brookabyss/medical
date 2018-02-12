@@ -244,6 +244,7 @@ var CallComponent = /** @class */ (function () {
             .then(function (data) {
             console.log("returned account login method");
             console.log(data['user_id']);
+            _this._stakesService.updateAccounts(data['accounts']);
             _this._router.navigate(['/accounts/show/user', data['user_id']]);
         })
             .catch(function (err) {
@@ -431,7 +432,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/show/show.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p *ngFor=\"let account of accounts\">Account</p>\n<p>show</p>"
+module.exports = "<p *ngFor=\"let account of accounts\">{{account.patient_first_name}}</p>\n<p>show</p>"
 
 /***/ }),
 
@@ -455,11 +456,31 @@ var stakes_service_1 = __webpack_require__("../../../../../src/app/stakes.servic
 var router_1 = __webpack_require__("../../../router/esm5/router.js");
 var ShowComponent = /** @class */ (function () {
     function ShowComponent(_stakesService, _router) {
+        var _this = this;
         this._stakesService = _stakesService;
         this._router = _router;
+        this._stakesService.get_logged_in_user()
+            .then(function (data) {
+            if (data.loggedin) {
+                _this.user_id = data.user_id;
+                _this.subscription = _this._stakesService.observedAccounts.subscribe(function (accounts) { return _this.accounts = accounts; }, function (err) { return console.log(err); }, function () { });
+            }
+            else {
+                console.log("not logged in ");
+                _this._router.navigate(['']);
+            }
+        })
+            .catch(function (err) {
+            console.log(err);
+        });
     }
     ShowComponent.prototype.ngOnInit = function () {
-        this.accounts = [];
+        console.log("show component");
+    };
+    ShowComponent.prototype.ngOnDestroy = function () {
+        if (this.user_id) {
+            this.subscription.unsubscribe();
+        }
     };
     ShowComponent = __decorate([
         core_1.Component({
@@ -528,6 +549,9 @@ var StakesService = /** @class */ (function () {
     };
     StakesService.prototype.addPatient = function (patient) {
         return this._http.post('/add/patient', patient).map(function (data) { return data.json(); }).toPromise();
+    };
+    StakesService.prototype.get_logged_in_user = function () {
+        return this._http.get('/user/loggedin').map(function (data) { return data.json(); }).toPromise();
     };
     StakesService = __decorate([
         core_1.Injectable(),

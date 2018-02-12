@@ -24,6 +24,10 @@ module.exports = (app) => {
     app.post('/add/patient', (req,res) => {
         patients.createPatient(req,res)
     })
+    
+    app.get('/user/loggedin', (req,res)=>{
+        stakeholders.get_logged_in_user(req, res);
+    })
 
 
 	app.get("*", (req, res) => {

@@ -22,6 +22,7 @@ Schema    = mongoose.Schema,
         type: String,
     },
     medications:[{ type: Schema.Types.ObjectId, ref :'Medication', default: null}],
+    stakeholders:[{ type: Schema.Types.ObjectId, ref :'StakeHolder', default: null}],
     hospital_visits:[{ type: Schema.Types.ObjectId, ref :'Visit', default: null}],
   },
 { timestamps: true } );

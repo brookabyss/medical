@@ -44,6 +44,7 @@ export class CallComponent implements OnInit {
      .then(data=>{
         console.log("returned account login method")
         console.log(data['user_id'])
+        this._stakesService.updateAccounts(data['accounts']);
         this._router.navigate(['/accounts/show/user',data['user_id']])
       })
     .catch(err=>{
