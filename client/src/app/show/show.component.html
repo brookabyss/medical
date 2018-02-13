@@ -1,2 +1,25 @@
-<p *ngFor="let account of accounts">{{account.patient_first_name}}</p>
-<p>show</p>
+<table>
+    <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Hospital Id#</th>
+            <th>Medication</th>
+            <th>Patient History</th>
+            <th>Corespondence</th>
+            
+    </tr>
+    <tr *ngFor="let account of accounts">
+        <td>{{account.patient_first_name}}</td>
+        <td>{{account.patient_last_name}}</td>
+        <td>{{account.dob|date: 'dd/MM/yyyy'}}</td>
+        <td *ngIf="account.hospital_Id">{{account.hospital_Id }}</td>
+        <td *ngIf="!account.hospital_Id">-</td>
+        <td><a href="#">Medication List</a></td>
+        <td><a href="#">Visits</a></td>
+        <td><a href="#">Corespondence List</a></td>
+    </tr>
+    
+    
+</table>
+

@@ -432,7 +432,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/show/show.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p *ngFor=\"let account of accounts\">{{account.patient_first_name}}</p>\n<p>show</p>"
+module.exports = "<table>\n    <tr>\n            <th>First Name</th>\n            <th>Last Name</th>\n            <th>Date of Birth</th>\n            <th>Hospital Id#</th>\n            <th>Medication</th>\n            <th>Patient History</th>\n            <th>Corespondence</th>\n            \n    </tr>\n    <tr *ngFor=\"let account of accounts\">\n        <td>{{account.patient_first_name}}</td>\n        <td>{{account.patient_last_name}}</td>\n        <td>{{account.dob|date: 'dd/MM/yyyy'}}</td>\n        <td *ngIf=\"account.hospital_Id\">{{account.hospital_Id }}</td>\n        <td *ngIf=\"!account.hospital_Id\">-</td>\n        <td><a href=\"#\">Medication List</a></td>\n        <td><a href=\"#\">Visits</a></td>\n        <td><a href=\"#\">Corespondence List</a></td>\n    </tr>\n    \n    \n</table>\n\n"
 
 /***/ }),
 
